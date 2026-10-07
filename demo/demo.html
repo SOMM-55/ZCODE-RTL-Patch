@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ZCode RTL patch demo</title>
+<style>
+  /* mimic app chrome */
+  html,body,#root{margin:0;width:100%;height:100%}
+  body{background:#151718;color:#e6e6e6;font-family:ui-sans-serif,system-ui,'Vazirmatn','Segoe UI',sans-serif;font-size:14px}
+  #root{display:flex;flex-direction:column}
+  .topbar{padding:10px 16px;border-bottom:1px solid #2a2d30;font-weight:600}
+  .layout{display:flex;flex:1;min-height:0}
+  .sidebar{width:240px;border-right:1px solid #2a2d30;padding:8px}
+  .session{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;cursor:pointer}
+  .session:hover{background:#22262a}
+  .session .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1;color:#b6bcc2}
+  .session.active{background:#262b31}
+  .main{flex:1;overflow:auto;padding:20px}
+  .history-message{display:flex;flex-direction:column;gap:8px;margin-bottom:22px;max-width:760px}
+  .bubble-user{align-self:flex-end;max-width:min(100%,36rem);display:flex;flex-direction:column;gap:8px;border:1px solid #343a41;background:#1d2126;border-radius:12px;padding:12px 16px}
+  .prose p{margin:.5em 0;line-height:1.7}
+  .prose pre{background:#101214;border:1px solid #2a2d30;border-radius:8px;padding:12px;overflow:auto;font-family:ui-monospace,monospace;font-size:13px;direction:ltr;text-align:left}
+  .prose code{font-family:ui-monospace,monospace;background:#101214;padding:1px 5px;border-radius:4px;font-size:13px}
+  .prose table{border-collapse:collapse}
+  .prose td,.prose th{border:1px solid #2a2d30;padding:6px 12px}
+  .prose ul{padding-left:24px}
+  .prose li{margin:.3em 0}
+  label{color:#8b929a;display:block;margin:14px 0 6px;font-size:12px}
+  input{width:70%;background:#101214;border:1px solid #2a2d30;border-radius:8px;color:#e6e6e6;padding:8px 12px}
+</style>
+<!-- ==== THE EXACT RULE THE PATCH INJECTS ==== -->
+<style id="zcode-rtl-patch">
+#root :is(p,li,h1,h2,h3,h4,h5,h6,td,th,blockquote,figcaption,dd,dt),#root .truncate,#root :is(input,textarea),#root div:not(:has(*)):not(:empty){unicode-bidi:plaintext;text-align:start}
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="topbar">ZCode — session: Persian RTL patch test</div>
+  <div class="layout">
+    <div class="sidebar">
+      <div class="session active"><span>💬</span><div class="truncate">رفع باگ نمایش تاریخ در فرم لاگین</div></div>
+      <div class="session"><span>💬</span><div class="truncate">Refactor auth middleware</div></div>
+      <div class="session"><span>💬</span><div class="truncate">Add endpoint for user profile</div></div>
+      <div class="session"><span>💬</span><div class="truncate">مهاجرت دیتابیس به پارتیشن‌بندی ماهانه</div></div>
+    </div>
+    <div class="main">
+      <div class="history-message">
+        <div class="bubble-user">سلام، این جمله‌ی فارسی باید راست‌چین نمایش داده بشه.</div>
+        <div class="bubble-user">Can you fix the RTL rendering of Persian text in the chat view?</div>
+      </div>
+      <div class="history-message">
+        <div class="prose">
+          <p>این یک پاراگراف کاملاً فارسی است و انتظار داریم راست‌چین و راست‌تراز نمایش داده شود، درست مثل یک ویرایشگر فارسی.</p>
+          <p>This is a plain English paragraph and it should stay exactly as before: left-aligned and LTR.</p>
+          <p>متن مخلوط: قیمت نهایی ۱۲۰ هزار تومان است — total 120,000 IRR با احتساب مالیات.</p>
+          <pre><code>const x = computeTotal(price, tax);
+return { total: x };  // code must remain LTR</code></pre>
+          <ul>
+            <li>گزینه اول: رفع مشکل ترازبندی متن</li>
+            <li>گزینه دوم: اضافه شدن فونت وزیرمتن</li>
+            <li>Third item: English stays left-aligned</li>
+          </ul>
+          <table>
+            <tr><td>کلید</td><td>key</td><td>مقدار نهایی</td></tr>
+            <tr><td>state</td><td>حالت</td><td>value</td></tr>
+          </table>
+          <p><input value="جستجوی فارسی در چت"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# Local artifacts — never commit an actual app archive or backup
+*.asar
+*.orig-backup
+node_modules/
+.DS_Store
